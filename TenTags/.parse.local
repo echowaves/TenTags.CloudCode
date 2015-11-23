@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "TenTags": {
+      "applicationId": "zoYLGIcwju9NnQJxX6Kg4zV839tdwHCc2qNWKQGu"
+    },
+    "_default": {
+      "link": "TenTags"
+    }
+  }
+}
