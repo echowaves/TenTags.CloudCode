@@ -52,6 +52,7 @@ Parse.Cloud.beforeSave("HashTag", function(request, response) {
 });
 
 Parse.Cloud.afterSave("Message", function(request) {
+  console.log("saving message:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
   var pusher = new Pusher({
     appId: '172810',
     key: 'd0d034d3f44a78bc0ba9',
@@ -61,12 +62,15 @@ Parse.Cloud.afterSave("Message", function(request) {
   // pusher.port = 443;
 
   var participants = request.object.get("participants");
+  console.log("participants: " + participants.length);
   var channelName = "";
 
-  if(participants[0] > participants[1]) {
+  if(participants[0].localeCompare(participants[1]) > 0) {
     channelName = "channel-" + participants[1] + "-" + participants[0];
   }
   channelName = "channel-" + participants[0] + "-" + participants[1];
+
+  console.log("channel: " + channelName);
 
   pusher.trigger(channelName,
     "message", {
