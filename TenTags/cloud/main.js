@@ -2,7 +2,6 @@ var fs = require('fs');
 var layer = require('cloud/layer-parse-module/layer-module.js');
 var Pusher = require('cloud/pusher-parse-module/parse.js');
 
-
 var layerProviderID = 'layer:///providers/dbdb9d0a-9772-11e5-bdbe-3a8a16005a40';  // Should have the format of layer:///providers/<GUID>
 var layerKeyID = 'layer:///keys/b96eef8c-989a-11e5-98d4-6ac90b000c5d';   // Should have the format of layer:///keys/<GUID>
 var privateKey = fs.readFileSync('cloud/layer-parse-module/keys/layer-key.js');
@@ -48,7 +47,6 @@ Parse.Cloud.beforeSave("HashTag", function(request, response) {
             response.error();
         }
       });
-
 });
 
 Parse.Cloud.afterSave("Message", function(request) {
@@ -63,15 +61,18 @@ Parse.Cloud.afterSave("Message", function(request) {
 
   var participants = request.object.get("participants");
   console.log("participants: " + participants.length);
+  console.log("participants[0]: " + participants[0]);
+  console.log("participants[1]: " + participants[1]);
+
   var channelName = "";
 
-  if(participants[0].localeCompare(participants[1]) > 0) {
+  if(participants[0].toString() > participants[1].toString()) {
     channelName = "channel-" + participants[1] + "-" + participants[0];
+  } else {
+    channelName = "channel-" + participants[0] + "-" + participants[1];
   }
 
-  channelName = "channel-" + participants[0] + "-" + participants[1];
-
-  console.log("channel: " + channelName);
+  console.log("channell: " + channelName);
 
   pusher.trigger(channelName,
     "message", {
