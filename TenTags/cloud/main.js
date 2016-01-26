@@ -1,5 +1,6 @@
 var fs = require('fs');
 var layer = require('cloud/layer-parse-module/layer-module.js');
+var Pusher = require('cloud/pusher-parse-module/parse.js');
 
 
 var layerProviderID = 'layer:///providers/dbdb9d0a-9772-11e5-bdbe-3a8a16005a40';  // Should have the format of layer:///providers/<GUID>
@@ -16,14 +17,10 @@ Parse.Cloud.define("generateToken", function(request, response) {
         response.success(layer.layerIdentityToken(userID, nonce));
 });
 
-
-
 var HashTag = Parse.Object.extend("HashTag");
 
 // Check if stopId is set, and enforce uniqueness based on the stopId column.
 Parse.Cloud.beforeSave("HashTag", function(request, response) {
-
-
 //first delete all previousy tags associated with this post
     query = new Parse.Query(HashTag);
       var tagString = request.object.get("hashTag");
@@ -52,4 +49,26 @@ Parse.Cloud.beforeSave("HashTag", function(request, response) {
         }
       });
 
+});
+
+Parse.Cloud.beforeSave("Message", function(request, response) {
+  var pusher = new Pusher({
+    appId: '172810',
+    key: 'd0d034d3f44a78bc0ba9',
+    secret: '1928a21623480753e4dc',
+    encrypted: true
+  });
+  pusher.port = 443;
+
+  var participants = request.object.get("participants");
+  var channelName = "";
+
+  if(participants[0] > participants[1]) {
+    channelName = "channel-" + participants[1] + "-" + participants[0];
+  }
+  channelName = "channel-" + participants[0] + "-" + participants[1];
+
+  pusher.trigger(channelName, 'message', {
+    "message": "hello world"
+  });
 });

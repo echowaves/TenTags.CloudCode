@@ -3,8 +3,11 @@
     "TenTags": {
       "applicationId": "zoYLGIcwju9NnQJxX6Kg4zV839tdwHCc2qNWKQGu"
     },
+    "TenTagsDev": {
+      "applicationId": "C0caJoLjtwhdtE3tXywMPzragKn7NxwPze0iZEIl"
+    },
     "_default": {
-      "link": "TenTags"
+      "link": "TenTagsDev"
     }
   }
 }
