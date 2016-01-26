@@ -68,6 +68,7 @@ Parse.Cloud.afterSave("Message", function(request) {
   if(participants[0].localeCompare(participants[1]) > 0) {
     channelName = "channel-" + participants[1] + "-" + participants[0];
   }
+
   channelName = "channel-" + participants[0] + "-" + participants[1];
 
   console.log("channel: " + channelName);
