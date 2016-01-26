@@ -51,14 +51,14 @@ Parse.Cloud.beforeSave("HashTag", function(request, response) {
 
 });
 
-Parse.Cloud.beforeSave("Message", function(request, response) {
+Parse.Cloud.afterSave("Message", function(request) {
   var pusher = new Pusher({
     appId: '172810',
     key: 'd0d034d3f44a78bc0ba9',
     secret: '1928a21623480753e4dc',
     encrypted: true
   });
-  pusher.port = 443;
+  // pusher.port = 443;
 
   var participants = request.object.get("participants");
   var channelName = "";
@@ -68,7 +68,9 @@ Parse.Cloud.beforeSave("Message", function(request, response) {
   }
   channelName = "channel-" + participants[0] + "-" + participants[1];
 
-  pusher.trigger(channelName, 'message', {
-    "message": "hello world"
-  });
+  pusher.trigger(channelName,
+    "message", {
+      "message": "hello world"
+    }
+  );
 });
