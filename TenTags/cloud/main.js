@@ -76,7 +76,8 @@ Parse.Cloud.afterSave("Message", function(request) {
 
   pusher.trigger(channelName,
     "message", {
-      "message": "hello world"
+      "message": request.object.get('message'),
+      "sender": request.object.get('sender')
     }
   );
 });
